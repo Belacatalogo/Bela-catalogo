@@ -24,6 +24,7 @@
 .beleza-card-name{font-family:'Cormorant Garamond',serif;font-size:0.82rem;font-weight:300;color:#fff;line-height:1.2}
 .beleza-empty{display:none;text-align:center;padding:60px 20px;color:rgba(240,224,229,0.25);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;grid-column:1 / -1}
 @media(max-width:480px){.beleza-grid{grid-template-columns:repeat(3,1fr)}}
+.prod-modal-price-wrap{display:none;text-align:center;margin:16px 0 18px;position:relative;padding:14px 0}.prod-modal-price-wrap::before,.prod-modal-price-wrap::after{content:'';position:absolute;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.35),transparent)}.prod-modal-price-wrap::before{top:0}.prod-modal-price-wrap::after{bottom:0}.prod-modal-price-label{font-size:0.5rem;letter-spacing:0.5em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:6px}.prod-modal-price-val{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:#e8c97a;font-weight:300;letter-spacing:0.03em;line-height:1;text-shadow:0 0 30px rgba(232,201,122,0.35)}
 .prod-modal-wa{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;padding:14px 20px;background:#25D366;color:#fff;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;border-radius:4px;transition:background 0.25s ease,transform 0.2s ease;box-shadow:0 4px 16px rgba(37,211,102,0.3)}.prod-modal-wa:hover{background:#1ebe5d;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,0.45)}.prod-modal-wa svg{flex-shrink:0}.prod-modal-share{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:10px;padding:9px 16px;background:transparent;border:1px solid rgba(37,211,102,0.3);color:rgba(255,255,255,0.45);text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;border-radius:4px;cursor:pointer;transition:all 0.25s ease;width:100%}.prod-modal-share:hover{border-color:rgba(37,211,102,0.7);color:rgba(255,255,255,0.75);background:rgba(37,211,102,0.06)}.prod-modal-share svg{flex-shrink:0;opacity:0.6}
 .instagram-btn{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:13px 26px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;border-radius:50px;transition:transform 0.2s ease,box-shadow 0.3s ease;box-shadow:0 4px 20px rgba(253,29,29,0.3)}.instagram-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(253,29,29,0.45)}
 .carousel{position:relative;width:100%;overflow:hidden;background:#0d0d0d}.carousel-track{display:flex;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform}.carousel-slide{min-width:100%;position:relative;overflow:hidden}.carousel-slide-img{width:100%;height:min(520px,70vh);object-fit:cover;object-position:center;filter:brightness(0.55);display:block}.carousel-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.3) 40%,rgba(0,0,0,0.15) 100%)}.carousel-slide-content{position:absolute;bottom:0;left:0;right:0;padding:40px 32px 50px;text-align:left;max-width:600px}.carousel-slide-eyebrow{font-size:0.55rem;letter-spacing:0.5em;text-transform:uppercase;color:#C9A84C;margin-bottom:10px;opacity:0;transform:translateY(12px);transition:all 0.5s ease 0.15s}.carousel-slide-name{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,7vw,3.8rem);font-weight:300;color:#fff;line-height:1.05;margin-bottom:8px;text-shadow:0 2px 16px rgba(0,0,0,0.5);opacity:0;transform:translateY(16px);transition:all 0.5s ease 0.25s}.carousel-slide-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.85rem,2.5vw,1.05rem);color:rgba(255,255,255,0.55);margin-bottom:22px;opacity:0;transform:translateY(12px);transition:all 0.5s ease 0.35s}.carousel-slide-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:transparent;border:1px solid rgba(201,168,76,0.6);color:#C9A84C;font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;opacity:0;transform:translateY(10px);transition:all 0.5s ease 0.45s,background 0.3s ease,border-color 0.3s ease}.carousel-slide-cta:hover{background:rgba(201,168,76,0.12);border-color:#C9A84C}.carousel-slide.active .carousel-slide-eyebrow,.carousel-slide.active .carousel-slide-name,.carousel-slide.active .carousel-slide-sub,.carousel-slide.active .carousel-slide-cta{opacity:1;transform:translateY(0)}.carousel-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20}.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;cursor:pointer;transition:all 0.3s ease;padding:0}.carousel-dot.active{background:#C9A84C;transform:scale(1.25)}.carousel-progress{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(to right,#C9A84C,#e8c97a);z-index:20;transition:width 0.1s linear;width:0}.carousel-arrows{position:absolute;top:50%;left:0;right:0;display:flex;justify-content:space-between;padding:0 12px;transform:translateY(-50%);z-index:20;pointer-events:none}.carousel-arrow{width:40px;height:40px;background:rgba(0,0,0,0.45);border:1px solid rgba(201,168,76,0.3);border-radius:50%;color:#C9A84C;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;transition:all 0.25s ease;backdrop-filter:blur(4px)}.carousel-arrow:hover{background:rgba(201,168,76,0.15);border-color:#C9A84C}@media(max-width:640px){.carousel-slide-content{padding:28px 20px 44px}.carousel-arrows{display:none}}
@@ -160,7 +161,7 @@ Perfumes &amp; Beleza<br><br><a href="https://wa.me/5562994164220?text=Olá%20Ya
 'Natura Tododia Flores — Creme para o Corpo Flor de Pêssego e Jasmim',
 '🌸 Kit Especial',
 'pink'
-)"><div class="product-img-wrap"><img loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" data-src="https://i.ibb.co/MxS6h2Xt/IMG-8864.jpg" alt="Kit Com Carinho"><div class="product-overlay"></div></div><div class="product-info"><p class="product-brand">Kit Dia das Mães</p><h3 class="product-name">Com<br>Carinho</h3><p class="product-sub">Natura Tododia Flores — Creme para o Corpo Flor de Pêssego e Jasmim</p></div></div></div></div><div class="prod-modal" id="prodModal" onclick="closeProdModalBg(event)"><div class="prod-modal-inner"><button class="prod-modal-close" onclick="closeProdModal()">✕</button><img decoding="async" class="prod-modal-img" id="modalImg" src="" alt=""><div class="prod-modal-body"><span class="prod-modal-badge" id="modalBadge" style="display:none"></span><p class="prod-modal-brand" id="modalBrand"></p><h3 class="prod-modal-name" id="modalName"></h3><p class="prod-modal-sub" id="modalSub"></p><button class="cart-modal-add" id="modalCartBtn" onclick="toggleModalFav()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span id="modalCartText">Adicionar ao carrinho</span></button><a class="prod-modal-wa" id="modalWaBtn" href="#" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" width="18" height="18"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.74 5.494 2.035 7.807L0 32l8.418-2.007A15.93 15.93 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 0 1-6.765-1.847l-.485-.287-5.003 1.194 1.234-4.867-.317-.5A13.265 13.265 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.874c-.398-.199-2.355-1.162-2.72-1.295-.365-.133-.631-.199-.897.2-.266.398-1.03 1.295-1.263 1.561-.232.266-.465.3-.863.1-.398-.2-1.681-.619-3.202-1.977-1.183-1.056-1.982-2.36-2.214-2.758-.232-.399-.025-.614.174-.812.179-.178.398-.465.597-.698.2-.232.266-.398.399-.664.133-.266.066-.498-.033-.697-.1-.2-.897-2.162-1.229-2.96-.324-.778-.653-.673-.897-.685l-.764-.013c-.266 0-.698.1-1.063.498-.365.399-1.396 1.363-1.396 3.325s1.43 3.857 1.629 4.123c.2.266 2.814 4.297 6.82 6.026.953.412 1.697.658 2.277.842.957.305 1.828.262 2.516.159.767-.114 2.355-.963 2.688-1.893.332-.93.332-1.727.232-1.893-.099-.166-.365-.266-.763-.465z"/></svg>Quero saber o valor</a><button class="prod-modal-share" id="modalShareBtn" onclick="compartilharProduto()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Indicar para uma amiga</button></div></div></div><div id="todos" class="tab-panel"><div class="todos-hero"><h2 class="todos-title">Catálogo Completo</h2><p class="todos-sub">Toque em um produto para ver os detalhes</p><div style="width:50px;height:1px;background:linear-gradient(to right,transparent,#C9A84C,transparent);margin:20px auto 0;"></div></div><div class="todos-search-wrap" id="todosSearchWrap"><svg class="todos-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="todos-search" id="todosSearch" type="text" placeholder="Buscar por nome..." autocomplete="off"><button class="todos-search-clear" id="todosSearchClear" onclick="clearTodosSearch()">✕</button><div class="todos-search-info" id="todosSearchInfo"></div></div><div class="filter-bar"><button class="filter-btn active" onclick="filtrarProdutos('todos', this)">✦ Todos</button><button class="filter-btn" onclick="filtrarProdutos('feminino', this)">🌸 Feminino</button><button class="filter-btn" onclick="filtrarProdutos('masculino', this)">🔷 Masculino</button><button class="filter-btn" onclick="filtrarProdutos('kit', this)">🎁 Kits</button><button class="filter-btn" onclick="filtrarProdutos('perfume', this)">✨ Perfumes</button><button class="filter-btn" onclick="filtrarProdutos('hidratante', this)">💧 Hidratantes</button><button class="filter-btn" onclick="filtrarProdutos('cabelo', this)">💆 Cabelo</button><button class="filter-btn" onclick="filtrarProdutos('sabonete', this)">🧼 Sabonetes</button></div><div class="todos-grid" id="todosGrid"><div class="filter-empty" id="filterEmpty">Nenhum produto encontrado nesta categoria</div></div></div>
+)"><div class="product-img-wrap"><img loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" data-src="https://i.ibb.co/MxS6h2Xt/IMG-8864.jpg" alt="Kit Com Carinho"><div class="product-overlay"></div></div><div class="product-info"><p class="product-brand">Kit Dia das Mães</p><h3 class="product-name">Com<br>Carinho</h3><p class="product-sub">Natura Tododia Flores — Creme para o Corpo Flor de Pêssego e Jasmim</p></div></div></div></div><div class="prod-modal" id="prodModal" onclick="closeProdModalBg(event)"><div class="prod-modal-inner"><button class="prod-modal-close" onclick="closeProdModal()">✕</button><img decoding="async" class="prod-modal-img" id="modalImg" src="" alt=""><div class="prod-modal-body"><span class="prod-modal-badge" id="modalBadge" style="display:none"></span><p class="prod-modal-brand" id="modalBrand"></p><h3 class="prod-modal-name" id="modalName"></h3><p class="prod-modal-sub" id="modalSub"></p><div id="modalPriceWrap" class="prod-modal-price-wrap"><p class="prod-modal-price-label">✦ Valor</p><p class="prod-modal-price-val" id="modalPriceVal"></p></div><button class="cart-modal-add" id="modalCartBtn" onclick="toggleModalFav()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span id="modalCartText">Adicionar ao carrinho</span></button><a class="prod-modal-wa" id="modalWaBtn" href="#" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" width="18" height="18"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.74 5.494 2.035 7.807L0 32l8.418-2.007A15.93 15.93 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 0 1-6.765-1.847l-.485-.287-5.003 1.194 1.234-4.867-.317-.5A13.265 13.265 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.874c-.398-.199-2.355-1.162-2.72-1.295-.365-.133-.631-.199-.897.2-.266.398-1.03 1.295-1.263 1.561-.232.266-.465.3-.863.1-.398-.2-1.681-.619-3.202-1.977-1.183-1.056-1.982-2.36-2.214-2.758-.232-.399-.025-.614.174-.812.179-.178.398-.465.597-.698.2-.232.266-.398.399-.664.133-.266.066-.498-.033-.697-.1-.2-.897-2.162-1.229-2.96-.324-.778-.653-.673-.897-.685l-.764-.013c-.266 0-.698.1-1.063.498-.365.399-1.396 1.363-1.396 3.325s1.43 3.857 1.629 4.123c.2.266 2.814 4.297 6.82 6.026.953.412 1.697.658 2.277.842.957.305 1.828.262 2.516.159.767-.114 2.355-.963 2.688-1.893.332-.93.332-1.727.232-1.893-.099-.166-.365-.266-.763-.465z"/></svg><span id="modalWaLabel">Quero saber o valor</span></a><button class="prod-modal-share" id="modalShareBtn" onclick="compartilharProduto()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Indicar para uma amiga</button></div></div></div><div id="todos" class="tab-panel"><div class="todos-hero"><h2 class="todos-title">Catálogo Completo</h2><p class="todos-sub">Toque em um produto para ver os detalhes</p><div style="width:50px;height:1px;background:linear-gradient(to right,transparent,#C9A84C,transparent);margin:20px auto 0;"></div></div><div class="todos-search-wrap" id="todosSearchWrap"><svg class="todos-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="todos-search" id="todosSearch" type="text" placeholder="Buscar por nome..." autocomplete="off"><button class="todos-search-clear" id="todosSearchClear" onclick="clearTodosSearch()">✕</button><div class="todos-search-info" id="todosSearchInfo"></div></div><div class="filter-bar"><button class="filter-btn active" onclick="filtrarProdutos('todos', this)">✦ Todos</button><button class="filter-btn" onclick="filtrarProdutos('feminino', this)">🌸 Feminino</button><button class="filter-btn" onclick="filtrarProdutos('masculino', this)">🔷 Masculino</button><button class="filter-btn" onclick="filtrarProdutos('kit', this)">🎁 Kits</button><button class="filter-btn" onclick="filtrarProdutos('perfume', this)">✨ Perfumes</button><button class="filter-btn" onclick="filtrarProdutos('hidratante', this)">💧 Hidratantes</button><button class="filter-btn" onclick="filtrarProdutos('cabelo', this)">💆 Cabelo</button><button class="filter-btn" onclick="filtrarProdutos('sabonete', this)">🧼 Sabonetes</button></div><div class="todos-grid" id="todosGrid"><div class="filter-empty" id="filterEmpty">Nenhum produto encontrado nesta categoria</div></div></div>
 <script>(function() {
 const observer = new IntersectionObserver(function(entries) {
 entries.forEach(function(entry) {
@@ -253,15 +254,31 @@ img.removeAttribute('data-src');
 }
 }
 var _currentModalProd = null;
-function openProdModal(imgSrc, brand, name, sub, badge, badgeClass) {
-_currentModalProd = { img: imgSrc, brand: brand, name: name, sub: sub };
+function openProdModal(imgSrc, brand, name, sub, badge, badgeClass, price) {
+_currentModalProd = { img: imgSrc, brand: brand, name: name, sub: sub, price: price||'' };
 document.getElementById('modalImg').src = imgSrc;
 document.getElementById('modalImg').alt = name.replace(/<br>/g,' ');
 document.getElementById('modalBrand').textContent = brand;
 document.getElementById('modalName').innerHTML = name;
 document.getElementById('modalSub').textContent = sub;
 var nomeProduto = (brand + ' ' + name.replace(/<br>/g,' ')).trim();
-var msg = 'Olá Yasmim! 🌸 Vi o catálogo Bela e gostaria de saber o valor de: ' + nomeProduto;
+var showPrice = !!(price && window._mostrarPrecos !== false);
+var priceWrap = document.getElementById('modalPriceWrap');
+var priceVal  = document.getElementById('modalPriceVal');
+var waLabel   = document.getElementById('modalWaLabel');
+if (priceWrap && priceVal) {
+  if (showPrice) { priceVal.textContent = price; priceWrap.style.display = ''; }
+  else { priceWrap.style.display = 'none'; }
+}
+var msg, labelTxt;
+if (showPrice) {
+  labelTxt = '✦ Quero este produto';
+  msg = 'Olá Yasmim! 🌸 Vi o catálogo Bela e quero fazer um pedido de: ' + nomeProduto + ' — ' + price;
+} else {
+  labelTxt = 'Quero saber o valor';
+  msg = 'Olá Yasmim! 🌸 Vi o catálogo Bela e gostaria de saber o valor de: ' + nomeProduto;
+}
+if (waLabel) waLabel.textContent = labelTxt;
 document.getElementById('modalWaBtn').href = 'https://wa.me/5562994164220?text=' + encodeURIComponent(msg);
 const b = document.getElementById('modalBadge');
 if (badge) {
@@ -824,13 +841,15 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
 
     // Clique → abre modal
     el.addEventListener('click', function(){
+      var priceStr = p.price ? 'R$ '+parseFloat(p.price).toFixed(2).replace('.',',') : '';
       openProdModal(
         foto,
         p.brand||'',
         p.name||'',
         p.sub||'',
-        p.price?'R$ '+parseFloat(p.price).toFixed(2).replace('.',','):'',
-        'pink'
+        p.badge||'',
+        p.badgeClass||'pink',
+        priceStr
       );
     });
 
@@ -915,7 +934,33 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
     db.ref('config/mostrarPrecos').on('value',function(snap){
       var v=snap.val();
       mostrarPrecosCatalogo=(v===null||v===true);
+      window._mostrarPrecos = mostrarPrecosCatalogo;
       aplicarPrecos();
+      // Atualiza modal se estiver aberto
+      var modal=document.getElementById('prodModal');
+      if(modal&&modal.classList.contains('open')&&window._currentModalProd){
+        var p=window._currentModalProd;
+        var priceWrap=document.getElementById('modalPriceWrap');
+        var priceVal=document.getElementById('modalPriceVal');
+        var waLabel=document.getElementById('modalWaLabel');
+        var waBtn=document.getElementById('modalWaBtn');
+        var nomeProduto=(p.brand+' '+p.name.replace(/<br>/gi,' ')).trim();
+        var showPrice=!!(p.price&&mostrarPrecosCatalogo);
+        if(priceWrap&&priceVal){
+          if(showPrice){priceVal.textContent=p.price;priceWrap.style.display='';}
+          else{priceWrap.style.display='none';}
+        }
+        var msg,labelTxt;
+        if(showPrice){
+          labelTxt='✦ Quero este produto';
+          msg='Olá Yasmim! 🌸 Vi o catálogo Bela e quero fazer um pedido de: '+nomeProduto+' — '+p.price;
+        } else {
+          labelTxt='Quero saber o valor';
+          msg='Olá Yasmim! 🌸 Vi o catálogo Bela e gostaria de saber o valor de: '+nomeProduto;
+        }
+        if(waLabel) waLabel.textContent=labelTxt;
+        if(waBtn) waBtn.href='https://wa.me/5562994164220?text='+encodeURIComponent(msg);
+      }
     });
 
     // Preços de todos os produtos (sincronizados pelo gestão)
