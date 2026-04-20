@@ -669,16 +669,31 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
 
 
 </script>
-<!-- Esgotado Firebase -->
+<!-- Firebase SDK + Produtos Customizados + Esgotados -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 (function(){
+
+  // ── Mapeamento aba → container e classe de card ──
+  var ABA_MAP = {
+    'todos':      { grid: '#todosGrid',   cls: 'todos-card'   },
+    'colecao':    { grid: '#colecao .catalog', cls: 'product-card' },
+    'maes':       { grid: '.maes-grid',   cls: 'maes-card'    },
+    'beleza':     { grid: '#belezaGrid',  cls: 'beleza-card'  },
+    'maquiagens': { grid: '#belezaGrid',  cls: 'beleza-card'  },
+    'infantis':   { grid: '#belezaGrid',  cls: 'beleza-card'  },
+  };
+
+  var esgIds = [];
+  var fbCustomProducts = {};
+
+  // ── Overlay de esgotado ──
   function norm(s){
-    return s.toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
       .replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
   }
 
-  // alt text normalizado → ID do produto
   var A={
     'coffee woman seduction':27,'clash kit':38,'quasar blue':14,
     'egeo choc':2,'floratta':3,'club 6 spotlight':15,'uomini spirit':16,
@@ -705,55 +720,225 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
     'boti baby colonia da lua':65,'spider gwen sophie kit':66
   };
 
-  var esgIds = [];
-
   function addOverlay(card){
-    if(card.querySelector('.esg-overlay')) return;
-    var o = document.createElement('div');
-    o.className = 'esg-overlay';
-    o.textContent = '\uD83D\uDCE6 Esgotado';
-    o.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.62);display:flex;align-items:center;justify-content:center;z-index:50;pointer-events:none;font-family:Montserrat,sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.8)';
+    if(!card||card.querySelector('.esg-overlay')) return;
+    var o=document.createElement('div');
+    o.className='esg-overlay';
+    o.textContent='📦 Esgotado';
+    o.style.cssText='position:absolute;inset:0;background:rgba(0,0,0,0.62);display:flex;align-items:center;justify-content:center;z-index:50;pointer-events:none;font-family:Montserrat,sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.8)';
     card.appendChild(o);
   }
 
-  function aplicar(){
-    // Remove overlays velhos
+  function aplicarEsgotados(){
     document.querySelectorAll('.esg-overlay').forEach(function(e){e.remove();});
     if(!esgIds.length) return;
-
-    // Cards estáticos com data-pid
+    // Cards estáticos data-pid
     esgIds.forEach(function(id){
       document.querySelectorAll('[data-pid="'+id+'"]').forEach(addOverlay);
     });
-
-    // Cards dinâmicos — match por alt text
+    // Cards dinâmicos por alt text
     document.querySelectorAll('.todos-card img, .beleza-card img').forEach(function(img){
-      var pid = A[norm(img.alt || '')];
-      if(pid && esgIds.indexOf(pid) !== -1){
-        addOverlay(img.closest('.todos-card,.beleza-card'));
+      var pid=A[norm(img.alt||'')];
+      if(pid&&esgIds.indexOf(pid)!==-1) addOverlay(img.closest('.todos-card,.beleza-card'));
+    });
+  }
+
+  // ── Criar card de produto customizado ──
+  function getFbContainer(gridSel){
+    var grid=document.querySelector(gridSel);
+    if(!grid) return null;
+    var cont=grid.querySelector('.fb-dynamic-section');
+    if(!cont){
+      cont=document.createElement('div');
+      cont.className='fb-dynamic-section';
+      cont.style.cssText='display:contents;';
+      grid.appendChild(cont);
+    }
+    return cont;
+  }
+
+  function makeCard(p, cls){
+    var pid=p.id||('fb_'+p.name.replace(/\s/g,'').toLowerCase());
+    var foto=p.foto||'https://via.placeholder.com/400x500?text=Sem+foto';
+    var priceHtml=p.price
+      ?'<span class="product-price">R$ '+parseFloat(p.price).toFixed(2).replace('.',',')+'</span>'
+      :'<span class="product-price no-price">Consulte</span>';
+
+    var isTodos=(cls==='todos-card');
+    var isMaes=(cls==='maes-card');
+    var isBeleza=(cls==='beleza-card');
+    var isColecao=(cls==='product-card');
+
+    var el=document.createElement('div');
+    el.setAttribute('data-pid', pid);
+    el.style.cursor='pointer';
+
+    if(isTodos){
+      el.className='todos-card fb-custom-card reveal';
+      el.setAttribute('data-categoria', p.category||'');
+      el.innerHTML=
+        '<img loading="lazy" src="'+foto+'" alt="'+(p.name||'')+'" style="width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.8);">'+
+        '<div class="todos-card-info">'+
+          '<p class="todos-card-brand">'+(p.brand||'')+'</p>'+
+          '<p class="todos-card-name">'+(p.name||'')+'</p>'+
+        '</div>';
+    } else if(isBeleza||cls==='maquiagens-card'||cls==='infantis-card'){
+      el.className='beleza-card fb-custom-card reveal';
+      el.setAttribute('data-categoria', p.category||'');
+      el.innerHTML=
+        '<img loading="lazy" src="'+foto+'" alt="'+(p.name||'')+'" style="width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.8);">'+
+        '<div class="beleza-card-info">'+
+          '<p class="beleza-card-brand">'+(p.brand||'')+'</p>'+
+          '<p class="beleza-card-name">'+(p.name||'')+'</p>'+
+        '</div>';
+    } else if(isMaes){
+      el.className='maes-card fb-custom-card reveal';
+      el.innerHTML=
+        '<div class="product-img-wrap">'+
+          '<img loading="lazy" src="'+foto+'" alt="'+(p.name||'')+'">'+
+          '<div class="product-overlay"></div>'+
+        '</div>'+
+        '<div class="product-info">'+
+          '<p class="product-brand">'+(p.brand||'')+'</p>'+
+          '<h3 class="product-name">'+(p.name||'')+'</h3>'+
+          (p.sub?'<p class="product-sub">'+p.sub+'</p>':'')+
+          '<div class="product-details-row">'+priceHtml+'</div>'+
+        '</div>';
+    } else {
+      // colecao / product-card
+      el.className='product-card fb-custom-card reveal';
+      el.innerHTML=
+        '<div class="product-img-wrap">'+
+          '<img loading="lazy" src="'+foto+'" alt="'+(p.name||'')+'">'+
+          '<div class="product-overlay"></div>'+
+        '</div>'+
+        '<div class="product-info">'+
+          '<p class="product-brand">'+(p.brand||'')+'</p>'+
+          '<h3 class="product-name">'+(p.name||'')+'</h3>'+
+          (p.sub?'<p class="product-sub">'+p.sub+'</p>':'')+
+          '<div class="product-details-row">'+priceHtml+'</div>'+
+        '</div>';
+    }
+
+    // Clique → abre modal
+    el.addEventListener('click', function(){
+      openProdModal(
+        foto,
+        p.brand||'',
+        p.name||'',
+        p.sub||'',
+        p.price?'R$ '+parseFloat(p.price).toFixed(2).replace('.',','):'',
+        'pink'
+      );
+    });
+
+    // Reveal animation
+    setTimeout(function(){ el.classList.add('visible'); }, 80);
+
+    return el;
+  }
+
+  function renderCustomProducts(){
+    document.querySelectorAll('.fb-dynamic-section').forEach(function(c){ c.innerHTML=''; });
+    Object.keys(fbCustomProducts).forEach(function(id){
+      var p=fbCustomProducts[id];
+      var aba=ABA_MAP[p.catalogTab]||ABA_MAP['todos'];
+
+      // Para aba "todos", também adiciona na aba principal
+      var cont=getFbContainer(aba.grid);
+      if(!cont) return;
+
+      // Não duplicar
+      if(cont.querySelector('[data-pid="'+p.id+'"]')) return;
+
+      var card=makeCard(p, aba.cls);
+      cont.appendChild(card);
+
+      // Se não for "todos", também adiciona na aba todos para aparecer lá
+      if(p.catalogTab && p.catalogTab !== 'todos'){
+        var todosCont=getFbContainer('#todosGrid');
+        if(todosCont && !todosCont.querySelector('[data-pid="todos_'+p.id+'"]')){
+          var cardTodos=makeCard(p,'todos-card');
+          cardTodos.setAttribute('data-pid','todos_'+p.id);
+          todosCont.appendChild(cardTodos);
+        }
+      }
+    });
+    aplicarEsgotados();
+  }
+
+  // ── Firebase init ──
+  var mostrarPrecosCatalogo = true;
+  var precosFirebase = {};
+
+  function aplicarPrecos(){
+    // Atualiza preços em cards customizados já renderizados
+    document.querySelectorAll('.fb-custom-card').forEach(function(card){
+      var pid = card.getAttribute('data-pid');
+      if(!pid) return;
+      var idNum = parseInt(pid.replace('todos_',''));
+      var priceEl = card.querySelector('.product-price');
+      if(!priceEl) return;
+      var price = precosFirebase[idNum] || (fbCustomProducts[idNum] && fbCustomProducts[idNum].price);
+      if(!mostrarPrecosCatalogo){
+        priceEl.textContent = 'Consulte';
+        priceEl.className = 'product-price no-price';
+      } else if(price){
+        priceEl.textContent = 'R$ ' + parseFloat(price).toFixed(2).replace('.',',');
+        priceEl.className = 'product-price';
       }
     });
   }
 
-  function buscar(){
-    fetch('https://htmls-ddd31-default-rtdb.firebaseio.com/esgotados.json')
-      .then(function(r){return r.json();})
-      .then(function(d){
-        esgIds = d ? Object.keys(d).filter(function(k){return d[k]===true;}).map(Number) : [];
-        aplicar();
-      })
-      .catch(function(){});
+  function initFB(){
+    if(typeof firebase==='undefined'){ setTimeout(initFB,200); return; }
+    var app;
+    try{ app=firebase.app(); }catch(e){ app=firebase.initializeApp({databaseURL:'https://htmls-ddd31-default-rtdb.firebaseio.com/'}); }
+    var db=firebase.database(app);
+
+    // Esgotados — listener em tempo real
+    db.ref('esgotados').on('value',function(snap){
+      var d=snap.val()||{};
+      esgIds=Object.keys(d).filter(function(k){return d[k]===true;}).map(Number);
+      aplicarEsgotados();
+    });
+
+    // Produtos customizados — listener em tempo real
+    db.ref('produtos_custom').on('value',function(snap){
+      fbCustomProducts=snap.val()||{};
+      renderCustomProducts();
+    });
+
+    // Toggle mostrar preços
+    db.ref('config/mostrarPrecos').on('value',function(snap){
+      var v=snap.val();
+      mostrarPrecosCatalogo=(v===null||v===true);
+      aplicarPrecos();
+    });
+
+    // Preços de todos os produtos (sincronizados pelo gestão)
+    db.ref('precos').on('value',function(snap){
+      precosFirebase=snap.val()||{};
+      aplicarPrecos();
+    });
+
+    // Re-aplica ao trocar aba
+    document.addEventListener('click',function(e){
+      var btn=e.target.closest('.tab-btn');
+      if(btn) setTimeout(function(){ aplicarEsgotados(); renderCustomProducts(); aplicarPrecos(); },400);
+    });
+
+    // Atualiza esgotados a cada 60s (fallback)
+    setInterval(function(){
+      db.ref('esgotados').once('value',function(snap){
+        var d=snap.val()||{};
+        esgIds=Object.keys(d).filter(function(k){return d[k]===true;}).map(Number);
+        aplicarEsgotados();
+      });
+    },60000);
   }
 
-  // Busca ao carregar
-  buscar();
-  // Atualiza a cada 60s
-  setInterval(buscar, 60000);
-  // Re-aplica após mudança de aba (cards dinâmicos renderizam lazy)
-  document.addEventListener('click', function(e){
-    var btn = e.target.closest('.tab-btn');
-    if(btn) setTimeout(aplicar, 400);
-  });
+  initFB();
 })();
 </script>
 </body></html>
