@@ -838,33 +838,36 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
   }
 
   function renderCustomProducts(){
-    document.querySelectorAll('.fb-dynamic-section').forEach(function(c){ c.innerHTML=''; });
+    // Remove cards dinâmicos anteriores
+    document.querySelectorAll('.fb-custom-card').forEach(function(c){ c.remove(); });
+
     Object.keys(fbCustomProducts).forEach(function(id){
       var p=fbCustomProducts[id];
-      var aba=ABA_MAP[p.catalogTab]||ABA_MAP['todos'];
+      if(!p || !p.foto) return;
 
-      // Para aba "todos", também adiciona na aba principal
-      var cont=getFbContainer(aba.grid);
-      if(!cont) return;
+      var aba=ABA_MAP[p.catalogTab]||ABA_MAP['todos'];
+      var grid=document.querySelector(aba.grid);
+      if(!grid) return;
 
       // Não duplicar
-      if(cont.querySelector('[data-pid="'+p.id+'"]')) return;
+      if(grid.querySelector('[data-pid="'+p.id+'"]')) return;
 
       var card=makeCard(p, aba.cls);
-      cont.appendChild(card);
+      grid.appendChild(card);
 
-      // Se não for "todos", também adiciona na aba todos para aparecer lá
+      // Se não for "todos", também aparece na aba Todos
       if(p.catalogTab && p.catalogTab !== 'todos'){
-        var todosCont=getFbContainer('#todosGrid');
-        if(todosCont && !todosCont.querySelector('[data-pid="todos_'+p.id+'"]')){
+        var todosGrid=document.querySelector('#todosGrid');
+        if(todosGrid && !todosGrid.querySelector('[data-pid="todos_'+p.id+'"]')){
           var cardTodos=makeCard(p,'todos-card');
           cardTodos.setAttribute('data-pid','todos_'+p.id);
-          todosCont.appendChild(cardTodos);
+          todosGrid.appendChild(cardTodos);
         }
       }
     });
     aplicarEsgotados();
   }
+
 
   // ── Firebase init ──
   var mostrarPrecosCatalogo = true;
