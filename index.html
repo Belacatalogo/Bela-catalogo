@@ -894,6 +894,14 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
     return el;
   }
 
+  // Valida imagem antes de adicionar o card — descarta silenciosamente se estiver quebrada
+  function renderCardComValidacao(card, imgUrl, grid){
+    var testImg = new Image();
+    testImg.onload = function(){ grid.appendChild(card); aplicarEsgotados(); };
+    testImg.onerror = function(){ /* imagem quebrada: não exibe */ };
+    testImg.src = imgUrl;
+  }
+
   function renderCustomProducts(){
     // Remove cards dinâmicos anteriores
     document.querySelectorAll('.fb-custom-card').forEach(function(c){ c.remove(); });
@@ -906,25 +914,35 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
       var grid=document.querySelector(aba.grid);
       if(!grid) return;
 
-      // Remove card estático com mesmo data-pid (evita duplicata)
+      // Remove card estático com mesmo data-pid
       var existing=grid.querySelector('[data-pid="'+p.id+'"]:not(.fb-custom-card)');
       if(existing) existing.remove();
 
+      // Remove card estático com mesmo nome normalizado (duplicata por nome)
+      if(p.name){
+        var nomeBusca = norm(p.name);
+        grid.querySelectorAll(':not(.fb-custom-card)').forEach(function(el){
+          if(!el.getAttribute) return;
+          var nameEl = el.querySelector('.product-name,.todos-card-name,.beleza-card-name');
+          if(nameEl && norm(nameEl.textContent||'') === nomeBusca) el.remove();
+        });
+      }
+
       var card=makeCard(p, aba.cls);
-      grid.appendChild(card);
+      // Só adiciona se a imagem realmente carregar
+      renderCardComValidacao(card, p.foto, grid);
 
       // Se não for "todos", também aparece na aba Todos
       if(p.catalogTab && p.catalogTab !== 'todos'){
         var todosGrid=document.querySelector('#todosGrid');
         if(todosGrid){
-          // Remove card estático duplicado na aba Todos também
           var existingTodos=todosGrid.querySelector('[data-pid="'+p.id+'"]:not(.fb-custom-card),[data-pid="todos_'+p.id+'"]:not(.fb-custom-card)');
           if(existingTodos) existingTodos.remove();
 
           if(!todosGrid.querySelector('[data-pid="todos_'+p.id+'"]')){
             var cardTodos=makeCard(p,'todos-card');
             cardTodos.setAttribute('data-pid','todos_'+p.id);
-            todosGrid.appendChild(cardTodos);
+            renderCardComValidacao(cardTodos, p.foto, todosGrid);
           }
         }
       }
