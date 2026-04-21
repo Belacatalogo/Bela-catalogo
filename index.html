@@ -894,12 +894,23 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { clo
     return el;
   }
 
-  // Valida imagem antes de adicionar o card — descarta silenciosamente se estiver quebrada
+  // Valida imagem antes de adicionar o card.
+  // O imgbb retorna text/html quando a URL está quebrada — fetch detecta isso pelo Content-Type.
   function renderCardComValidacao(card, imgUrl, grid){
-    var testImg = new Image();
-    testImg.onload = function(){ grid.appendChild(card); aplicarEsgotados(); };
-    testImg.onerror = function(){ /* imagem quebrada: não exibe */ };
-    testImg.src = imgUrl;
+    fetch(imgUrl)
+      .then(function(res){
+        var ct = res.headers.get('content-type') || '';
+        if(ct.indexOf('image/') === 0){
+          grid.appendChild(card);
+          aplicarEsgotados();
+        }
+        // content-type text/html = página de erro do imgbb → descarta
+      })
+      .catch(function(){
+        // Falha de CORS/rede: exibe mesmo assim para não sumir produto válido
+        grid.appendChild(card);
+        aplicarEsgotados();
+      });
   }
 
   function renderCustomProducts(){
