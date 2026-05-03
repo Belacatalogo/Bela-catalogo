@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="color-scheme" content="dark">
+  <title>Backup do Catálogo Bela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0d0d0d;--panel:#151515;--gold:#C9A84C;--gold2:#e8c97a;--cream:#f7f0e6;--muted:rgba(247,240,230,.48);--ok:#7ecfa0;--danger:#e87878}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.18),transparent 62%),var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif;font-weight:300;padding:calc(22px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom))}.shell{max-width:520px;margin:0 auto}.hero{border:1px solid rgba(201,168,76,.22);border-radius:28px;background:linear-gradient(145deg,rgba(28,24,18,.9),rgba(10,10,10,.94));padding:26px 20px;margin-bottom:16px;box-shadow:0 22px 60px rgba(0,0,0,.45)}.eyebrow{display:inline-flex;border:1px solid rgba(201,168,76,.3);border-radius:999px;padding:7px 12px;color:var(--gold);font-size:.52rem;letter-spacing:.35em;text-transform:uppercase}.hero h1{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;line-height:.95;margin:18px 0 10px;color:var(--cream)}.hero p{font-size:.78rem;line-height:1.65;color:var(--muted);margin:0}.card{border:1px solid rgba(201,168,76,.18);border-radius:22px;background:rgba(21,21,21,.88);padding:18px;margin-bottom:14px}.card h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;margin:0 0 8px;color:var(--gold2)}.card p{font-size:.72rem;line-height:1.55;color:var(--muted);margin:0 0 14px}.button{width:100%;min-height:52px;border:0;border-radius:999px;background:linear-gradient(135deg,#7a5a18 0%,#c9a84c 38%,#f5e4a0 52%,#b8922a 100%);color:#0d0d0d;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.7rem}.button.secondary{margin-top:10px;border:1px solid rgba(201,168,76,.28);background:rgba(201,168,76,.08);color:var(--gold2)}.status{border:1px dashed rgba(201,168,76,.22);border-radius:16px;background:rgba(201,168,76,.06);padding:12px;font-size:.72rem;line-height:1.55;color:var(--muted);margin-top:12px}.status.ok{border-color:rgba(126,207,160,.28);background:rgba(126,207,160,.07);color:var(--ok)}.status.err{border-color:rgba(232,120,120,.28);background:rgba(232,120,120,.07);color:var(--danger)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.metric{border:1px solid rgba(201,168,76,.14);border-radius:16px;text-align:center;padding:14px 8px;background:rgba(255,255,255,.03)}.metric strong{display:block;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold2);line-height:1}.metric span{display:block;margin-top:6px;font-size:.48rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(247,240,230,.35)}.sample{display:grid;gap:8px;margin-top:12px}.row{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.06);border-radius:14px;background:rgba(0,0,0,.18);padding:8px}.row img{width:48px;height:48px;border-radius:10px;object-fit:cover;background:#090909}.row strong{display:block;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row small{display:block;margin-top:3px;color:var(--muted);font-size:.58rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.note{font-size:.62rem;line-height:1.55;color:rgba(247,240,230,.32);margin-top:12px}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <span class="eyebrow">Backup seguro</span>
+      <h1>Catálogo Bela</h1>
+      <p>Esta página exporta uma cópia JSON dos produtos do catálogo para ser anexada no Gestão LAB. Ela não altera produtos, preços, fotos ou Firebase.</p>
+    </section>
+
+    <section class="card">
+      <h2>Exportar produtos</h2>
+      <p>Toque no botão abaixo para ler o catálogo atual e baixar um arquivo JSON com os produtos encontrados.</p>
+      <button class="button" id="exportBtn">Exportar backup JSON</button>
+      <button class="button secondary" id="analyzeBtn">Analisar sem baixar</button>
+      <div class="status" id="status">Pronto para gerar backup.</div>
+    </section>
+
+    <section class="card" id="summaryCard" hidden>
+      <h2>Resumo encontrado</h2>
+      <div class="grid">
+        <article class="metric"><strong id="totalProducts">0</strong><span>Produtos</span></article>
+        <article class="metric"><strong id="withImages">0</strong><span>Com foto</span></article>
+        <article class="metric"><strong id="withPrices">0</strong><span>Com preço</span></article>
+        <article class="metric"><strong id="categoriesCount">0</strong><span>Categorias</span></article>
+      </div>
+      <div class="sample" id="sample"></div>
+      <p class="note">Depois de baixar o JSON, abra o Gestão LAB → Ajustes/Backup → Backup do catálogo real → Selecionar JSON do catálogo.</p>
+    </section>
+  </main>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const summaryCard = document.getElementById('summaryCard');
+    const sampleEl = document.getElementById('sample');
+
+    function setStatus(message, tone = '') {
+      statusEl.className = 'status ' + tone;
+      statusEl.textContent = message;
+    }
+
+    function textFrom(root, selectors) {
+      for (const selector of selectors) {
+        const item = root.querySelector(selector);
+        const text = item && item.textContent ? item.textContent.trim() : '';
+        if (text) return text;
+      }
+      return '';
+    }
+
+    function imageFrom(root) {
+      const img = root.querySelector('img');
+      return img ? (img.currentSrc || img.src || img.getAttribute('src') || '') : '';
+    }
+
+    function productFromCard(card, index) {
+      const name = textFrom(card, ['.product-name', '.todos-card-name', '.prod-modal-name', '[data-name]', '[data-nome]']);
+      const brand = textFrom(card, ['.product-brand', '.todos-card-brand', '.prod-modal-brand', '[data-brand]', '[data-marca]']);
+      const description = textFrom(card, ['.product-sub', '.prod-modal-sub', '.product-volume', '[data-description]', '[data-descricao]']);
+      const price = textFrom(card, ['.product-price', '[data-price]', '[data-preco]']);
+      const imageUrl = imageFrom(card);
+      const category = card.closest('.tab-panel')?.id || card.closest('[id]')?.id || card.className || 'catalogo';
+      return {
+        id: card.dataset.id || card.dataset.product || card.dataset.produto || 'catalogo-' + (index + 1),
+        name,
+        brand,
+        description,
+        price,
+        imageUrl,
+        category: String(category).replace(/\s+/g, ' ').trim(),
+      };
+    }
+
+    async function readCatalogProducts() {
+      setStatus('Lendo index.html do catálogo...', '');
+      const response = await fetch('./index.html', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Não consegui ler o index.html do catálogo.');
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const selectors = '.product-card, .todos-card, .maes-card, .pair-card, [data-product], [data-produto]';
+      const cards = [...doc.querySelectorAll(selectors)];
+      const products = cards.map(productFromCard).filter((product) => product.name || product.imageUrl);
+      const seen = new Set();
+      return products.filter((product) => {
+        const key = [product.name, product.imageUrl, product.price].join('|');
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function buildBackup(products) {
+      const categories = [...new Set(products.map((product) => product.category).filter(Boolean))];
+      return {
+        source: 'Belacatalogo/Bela-catalogo',
+        type: 'bela-catalog-products-backup',
+        exportedAt: new Date().toISOString(),
+        total: products.length,
+        withImage: products.filter((product) => product.imageUrl).length,
+        withPrice: products.filter((product) => product.price).length,
+        categories,
+        products,
+      };
+    }
+
+    function renderSummary(backup) {
+      summaryCard.hidden = false;
+      document.getElementById('totalProducts').textContent = backup.total;
+      document.getElementById('withImages').textContent = backup.withImage;
+      document.getElementById('withPrices').textContent = backup.withPrice;
+      document.getElementById('categoriesCount').textContent = backup.categories.length;
+      sampleEl.innerHTML = backup.products.slice(0, 8).map((product) => `
+        <div class="row">
+          ${product.imageUrl ? `<img src="${product.imageUrl}" alt="">` : '<span></span>'}
+          <div><strong>${product.name || 'Produto sem nome'}</strong><small>${product.brand || product.category || ''}</small></div>
+        </div>
+      `).join('');
+    }
+
+    function downloadBackup(backup) {
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bela-catalogo-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1200);
+    }
+
+    async function analyze(download = false) {
+      try {
+        const products = await readCatalogProducts();
+        const backup = buildBackup(products);
+        renderSummary(backup);
+        if (!backup.total) {
+          setStatus('Nenhum produto foi encontrado no catálogo.', 'err');
+          return;
+        }
+        if (download) downloadBackup(backup);
+        setStatus(download ? 'Backup gerado e download iniciado.' : 'Análise concluída sem baixar arquivo.', 'ok');
+      } catch (error) {
+        setStatus(error.message || 'Erro ao gerar backup.', 'err');
+      }
+    }
+
+    document.getElementById('exportBtn').addEventListener('click', () => analyze(true));
+    document.getElementById('analyzeBtn').addEventListener('click', () => analyze(false));
+  </script>
+</body>
+</html>
